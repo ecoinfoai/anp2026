@@ -20,11 +20,11 @@
 
 **Purpose**: Create the minimal Julia package structure required by Documenter.jl and establish the TDD test foundation.
 
-- [ ] T001 [P] Create root package definition in Project.toml with `name = "ANP2026"`, a generated UUID v4, and `version = "0.1.0"`
-- [ ] T002 [P] Create minimal module stub in src/ANP2026.jl containing `module ANP2026 end` with module-level docstring
-- [ ] T003 [P] Create docs environment in docs/Project.toml with Documenter.jl dependency (UUID: `e30172f5-a6a5-5a46-863b-614d45cd2de4`, compat: `"1"`)
-- [ ] T004 [P] Update .gitignore to add `docs/build/`, `docs/Manifest.toml`, and `Manifest.toml` entries
-- [ ] T005 [P] **[TDD-RED]** Create build verification tests in tests/runtests.jl: (1) test Project.toml exists with required fields, (2) test src/ANP2026.jl exists, (3) test docs/Project.toml exists, (4) test docs/make.jl exists (will FAIL — make.jl not yet created), (5) test 14 Korean chapter files exist in docs/src/summary_kr/ (will FAIL — not yet moved), (6) test 14 English chapter files exist in docs/src/summary_en/ (will FAIL — not yet moved). Use `@testset` with descriptive names. Tests for existing files should PASS, tests for not-yet-created files should FAIL.
+- [X] T001 [P] Create root package definition in Project.toml with `name = "ANP2026"`, a generated UUID v4, and `version = "0.1.0"`
+- [X] T002 [P] Create minimal module stub in src/ANP2026.jl containing `module ANP2026 end` with module-level docstring
+- [X] T003 [P] Create docs environment in docs/Project.toml with Documenter.jl dependency (UUID: `e30172f5-a6a5-5a46-863b-614d45cd2de4`, compat: `"1"`)
+- [X] T004 [P] Update .gitignore to add `docs/build/`, `docs/Manifest.toml`, and `Manifest.toml` entries
+- [X] T005 [P] **[TDD-RED]** Create build verification tests in tests/runtests.jl: (1) test Project.toml exists with required fields, (2) test src/ANP2026.jl exists, (3) test docs/Project.toml exists, (4) test docs/make.jl exists (will FAIL — make.jl not yet created), (5) test 14 Korean chapter files exist in docs/src/summary_kr/ (will FAIL — not yet moved), (6) test 14 English chapter files exist in docs/src/summary_en/ (will FAIL — not yet moved). Use `@testset` with descriptive names. Tests for existing files should PASS, tests for not-yet-created files should FAIL.
 
 **Checkpoint**: `julia -e 'using Pkg; Pkg.activate("."); Pkg.status()'` shows ANP2026 package. `julia tests/runtests.jl` runs with expected failures for not-yet-created files.
 
@@ -36,11 +36,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 [P] Move 14 Korean chapter summaries from docs/summary_kr/ to docs/src/summary_kr/ (preserve all filenames matching `Ch{NN}_*_Summary_KR.md` pattern)
-- [ ] T007 [P] Move 14 English chapter summaries from docs/summary_en/ to docs/src/summary_en/ (preserve all filenames matching `Ch{NN}_*_Summary_EN.md` pattern)
-- [ ] T008 [P] Create main page in docs/src/index.md with: ANP2026 course title (Korean/English), brief course description, navigation guidance to Korean and English chapter sections
-- [ ] T009 [P] Create directory structure docs/src/assets/ for future custom assets
-- [ ] T010 **[TDD-GREEN]** Run tests/runtests.jl — chapter file tests should now PASS (T006, T007 completed). Verify expected results: Project.toml tests PASS, chapter tests PASS, make.jl test still FAILS (not yet created).
+- [X] T006 [P] Move 14 Korean chapter summaries from docs/summary_kr/ to docs/src/summary_kr/ (preserve all filenames matching `Ch{NN}_*_Summary_KR.md` pattern)
+- [X] T007 [P] Move 14 English chapter summaries from docs/summary_en/ to docs/src/summary_en/ (preserve all filenames matching `Ch{NN}_*_Summary_EN.md` pattern)
+- [X] T008 [P] Create main page in docs/src/index.md with: ANP2026 course title (Korean/English), brief course description, navigation guidance to Korean and English chapter sections
+- [X] T009 [P] Create directory structure docs/src/assets/ for future custom assets
+- [X] T010 **[TDD-GREEN]** Run tests/runtests.jl — chapter file tests should now PASS (T006, T007 completed). Verify expected results: Project.toml tests PASS, chapter tests PASS, make.jl test still FAILS (not yet created).
 
 **Checkpoint**: All 28 markdown files exist under `docs/src/` — verify with `ls docs/src/summary_kr/ docs/src/summary_en/ | wc -l` (should be 28). Tests partially green.
 
@@ -56,10 +56,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T011 [US1] Create build script in docs/make.jl with: (1) **Fail-fast validation block** at top: verify `docs/src/` exists, verify `summary_kr/` has ≥1 `Ch*.md` file, verify `summary_en/` has ≥1 `Ch*.md` file — all with WHAT+WHY+WHERE error messages per coding-standards.md and failure-cases.md FV-001/002/003, (2) `SUMMARY_KR_PAGES` array mapping Korean chapter titles (e.g., "Ch01. 서론") to file paths in `summary_kr/`, (3) `SUMMARY_EN_PAGES` array mapping English chapter titles to file paths in `summary_en/`, (4) `makedocs()` with `sitename = "ANP2026 해부생리학"`, `Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true", collapselevel = 1)`, `pages = ["Home" => "index.md", "한국어 요약 (Korean)" => SUMMARY_KR_PAGES, "English Summaries" => SUMMARY_EN_PAGES]`, `warnonly = [:missing_docs, :cross_references]`, (5) `deploydocs()` with `repo`, `devbranch = "main"`, `cname = "ecoinfo.ai.kr"`, (6) `@info` logging for build progress (chapters found count, build status). All functions must have Julia type annotations and docstrings. Include `# Implements FR-001, FR-002, FR-003, FR-005, FR-008` traceability comments.
-- [ ] T012 [US1] Install Documenter and run local build: `julia --project=docs -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'` then `julia --project=docs docs/make.jl` — verify docs/build/ is generated with all chapter pages
-- [ ] T013 [US1] **[TDD-GREEN]** Run tests/runtests.jl — ALL tests should now PASS (make.jl exists, chapters exist, Project.toml exists). Verify 0 failures.
-- [ ] T014 [US1] Verify local build output: confirm 28 chapter HTML files exist in docs/build/, sidebar shows Korean and English sections with Ch01-Ch14 in correct order, chapter content renders with headings, lists, and tables
+- [X] T011 [US1] Create build script in docs/make.jl with: (1) **Fail-fast validation block** at top: verify `docs/src/` exists, verify `summary_kr/` has ≥1 `Ch*.md` file, verify `summary_en/` has ≥1 `Ch*.md` file — all with WHAT+WHY+WHERE error messages per coding-standards.md and failure-cases.md FV-001/002/003, (2) `SUMMARY_KR_PAGES` array mapping Korean chapter titles (e.g., "Ch01. 서론") to file paths in `summary_kr/`, (3) `SUMMARY_EN_PAGES` array mapping English chapter titles to file paths in `summary_en/`, (4) `makedocs()` with `sitename = "ANP2026 해부생리학"`, `Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true", collapselevel = 1)`, `pages = ["Home" => "index.md", "한국어 요약 (Korean)" => SUMMARY_KR_PAGES, "English Summaries" => SUMMARY_EN_PAGES]`, `warnonly = [:missing_docs, :cross_references]`, (5) `deploydocs()` with `repo`, `devbranch = "main"`, `cname = "ecoinfo.ai.kr"`, (6) `@info` logging for build progress (chapters found count, build status). All functions must have Julia type annotations and docstrings. Include `# Implements FR-001, FR-002, FR-003, FR-005, FR-008` traceability comments.
+- [X] T012 [US1] Install Documenter and run local build: `julia --project=docs -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'` then `julia --project=docs docs/make.jl` — verify docs/build/ is generated with all chapter pages
+- [X] T013 [US1] **[TDD-GREEN]** Run tests/runtests.jl — ALL tests should now PASS (make.jl exists, chapters exist, Project.toml exists). Verify 0 failures.
+- [X] T014 [US1] Verify local build output: confirm 28 chapter HTML files exist in docs/build/, sidebar shows Korean and English sections with Ch01-Ch14 in correct order, chapter content renders with headings, lists, and tables
 
 **Checkpoint**: Site builds locally with all 28 chapters accessible via sidebar navigation. All tests pass. FR-001, FR-002, FR-003, FR-005, FR-008 satisfied.
 
@@ -75,9 +75,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Create CI/CD workflow in .github/workflows/docs.yml with: (1) trigger on push to `main` and tags `'*'`, (2) permissions: `actions: write`, `contents: write`, `pull-requests: read`, `statuses: write`, (3) steps: `actions/checkout@v4`, `julia-actions/setup-julia@v2` with `version: '1'`, `julia-actions/cache@v2`, install deps via `julia --project=docs` shell running `Pkg.develop(PackageSpec(path=pwd()))` and `Pkg.instantiate()`, build and deploy via `julia --project=docs docs/make.jl` with env `GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}`. Include `# Implements FR-004, FR-005` comment at top.
-- [ ] T016 [US2] Create GitHub repository using `gh repo create` and configure remote origin with `git remote add origin`
-- [ ] T017 [US2] Push all changes to main branch and verify: (1) GitHub Actions workflow triggers, (2) build completes successfully, (3) gh-pages branch is created with built site content
+- [X] T015 [US2] Create CI/CD workflow in .github/workflows/docs.yml with: (1) trigger on push to `main` and tags `'*'`, (2) permissions: `actions: write`, `contents: write`, `pull-requests: read`, `statuses: write`, (3) steps: `actions/checkout@v4`, `julia-actions/setup-julia@v2` with `version: '1'`, `julia-actions/cache@v2`, install deps via `julia --project=docs` shell running `Pkg.develop(PackageSpec(path=pwd()))` and `Pkg.instantiate()`, build and deploy via `julia --project=docs docs/make.jl` with env `GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}`. Include `# Implements FR-004, FR-005` comment at top.
+- [X] T016 [US2] Create GitHub repository using `gh repo create` and configure remote origin with `git remote add origin`
+- [X] T017 [US2] Push all changes to main branch and verify: (1) GitHub Actions workflow triggers, (2) build completes successfully, (3) gh-pages branch is created with built site content
 
 **Checkpoint**: Automated deployment pipeline operational. FR-004, FR-005 satisfied.
 
@@ -93,7 +93,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T018 [US3] Verify `deploydocs(cname = "ecoinfo.ai.kr")` is present in docs/make.jl (already added in T011 — confirm CNAME file is generated in docs/build/ after local build)
+- [X] T018 [US3] Verify `deploydocs(cname = "ecoinfo.ai.kr")` is present in docs/make.jl (already added in T011 — confirm CNAME file is generated in docs/build/ after local build)
 - [ ] T019 [US3] ⚙️ MANUAL: Configure DNS at Gabia — add CNAME record: `ecoinfo.ai.kr` pointing to `<username>.github.io`. Then in GitHub repo Settings > Pages: enter custom domain `ecoinfo.ai.kr` and enable "Enforce HTTPS"
 - [ ] T020 [US3] Verify custom domain: after DNS propagation, confirm `https://ecoinfo.ai.kr` loads the portal with valid HTTPS certificate and the GitHub Pages default URL redirects to the custom domain
 
@@ -111,8 +111,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T021 [US5] Add commented example section to docs/make.jl showing how to add a new content section: `# "퀴즈 (Quiz)" => ["Quiz 1" => "quiz/quiz_01.md"]` with inline comments explaining the pattern. Include `# Implements FR-009` traceability comment.
-- [ ] T022 [US5] Verify extensibility: create a temporary docs/src/quiz/ folder with a sample quiz_01.md file, uncomment the quiz section in pages config, run build, confirm the new section appears in sidebar, then remove the test files and re-comment
+- [X] T021 [US5] Add commented example section to docs/make.jl showing how to add a new content section: `# "퀴즈 (Quiz)" => ["Quiz 1" => "quiz/quiz_01.md"]` with inline comments explaining the pattern. Include `# Implements FR-009` traceability comment.
+- [X] T022 [US5] Verify extensibility: create a temporary docs/src/quiz/ folder with a sample quiz_01.md file, uncomment the quiz section in pages config, run build, confirm the new section appears in sidebar, then remove the test files and re-comment
 
 **Checkpoint**: Content extensibility pattern documented and validated. FR-009 satisfied.
 
@@ -122,11 +122,11 @@
 
 **Purpose**: Final validation across all user stories and failure case validation
 
-- [ ] T023 [P] Verify mobile responsiveness: build site and check generated HTML includes responsive viewport meta tag and Documenter's default responsive CSS handles 375px screens (FR-010, SC-006)
-- [ ] T024 [P] Validate all internal links: check that all 28 chapter summary sidebar links in the built site resolve to existing HTML files with content (SC-007)
-- [ ] T025 [P] **[Fail-Fast Validation]** Test failure scenarios from failure-cases.md: (1) FV-001: remove docs/src/ temporarily, run make.jl, verify clear error message, (2) FV-002: empty summary_kr/, run make.jl, verify clear error message, (3) FV-011: run make.jl without Pkg.instantiate(), verify helpful error. Restore after testing.
-- [ ] T026 Run full quickstart.md validation: follow all steps from specs/001-anp-docs-portal/quickstart.md end-to-end on a clean build
-- [ ] T027 Final acceptance: verify all success criteria SC-001 through SC-007 are met (excluding SC-004 if DNS not yet propagated)
+- [X] T023 [P] Verify mobile responsiveness: build site and check generated HTML includes responsive viewport meta tag and Documenter's default responsive CSS handles 375px screens (FR-010, SC-006)
+- [X] T024 [P] Validate all internal links: check that all 28 chapter summary sidebar links in the built site resolve to existing HTML files with content (SC-007)
+- [X] T025 [P] **[Fail-Fast Validation]** Test failure scenarios from failure-cases.md: (1) FV-001: remove docs/src/ temporarily, run make.jl, verify clear error message, (2) FV-002: empty summary_kr/, run make.jl, verify clear error message, (3) FV-011: run make.jl without Pkg.instantiate(), verify helpful error. Restore after testing.
+- [X] T026 Run full quickstart.md validation: follow all steps from specs/001-anp-docs-portal/quickstart.md end-to-end on a clean build
+- [X] T027 Final acceptance: verify all success criteria SC-001 through SC-007 are met (excluding SC-004 if DNS not yet propagated)
 
 ---
 
