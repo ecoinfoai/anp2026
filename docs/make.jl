@@ -148,10 +148,10 @@ makedocs(
         # 2. Add your markdown files there
         # 3. Uncomment and adapt the example below, then push to main
         #
-        # [T022-EXTENSIBILITY-TEST] Temporarily enabled to verify FR-009
-        "퀴즈 (Quiz)" => [
-            "Ch01 Quiz" => "quiz/Ch01_Quiz.md",
-        ],
+        # "퀴즈 (Quiz)" => [
+        #     "Ch01 Quiz" => "quiz/Ch01_Quiz.md",
+        #     "Ch02 Quiz" => "quiz/Ch02_Quiz.md",
+        # ],
         # ─────────────────────────────────────────────────────────────────────
     ],
 )
