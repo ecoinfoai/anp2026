@@ -1,0 +1,50 @@
+# .github/workflows/docs.yml
+# Implements FR-004, FR-005
+#   FR-004: Automatically rebuild and redeploy on push to main branch
+#   FR-005: Build pipeline reports clear error messages on failure
+#
+# Triggers on push to main (content updates) and on tags (version releases).
+# Uses GITHUB_TOKEN — no SSH deploy key required for single-branch deployments.
+
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+    tags: '*'
+  pull_request:
+
+jobs:
+  docs:
+    name: Build and Deploy Documentation
+    permissions:
+      actions: write       # required by julia-actions/cache to delete old caches
+      contents: write      # required to push built site to gh-pages branch
+      pull-requests: read  # required if push_preview is enabled in future
+      statuses: write      # optional: report build status on commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+
+      - name: Cache Julia depot
+        uses: julia-actions/cache@v2
+
+      - name: Install documentation dependencies
+        shell: julia --color=yes --project=docs {0}
+        run: |
+          using Pkg
+          # Add the ANP2026 package as a dev dependency of the docs environment
+          Pkg.develop(PackageSpec(path=pwd()))
+          Pkg.instantiate()
+
+      - name: Build and deploy documentation
+        run: julia --color=yes --project=docs docs/make.jl
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

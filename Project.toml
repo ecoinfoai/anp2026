@@ -1,0 +1,6 @@
+name = "ANP2026"
+uuid = "4eb953ed-95dd-4857-85e8-7da6f21f31e3"
+version = "0.1.0"
+
+[compat]
+julia = "1.10"
