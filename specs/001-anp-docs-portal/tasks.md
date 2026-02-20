@@ -94,8 +94,8 @@
 ### Implementation for User Story 3
 
 - [X] T018 [US3] Verify `deploydocs(cname = "ecoinfo.ai.kr")` is present in docs/make.jl (already added in T011 — confirm CNAME file is generated in docs/build/ after local build)
-- [ ] T019 [US3] ⚙️ MANUAL: Configure DNS at Gabia — add CNAME record: `ecoinfo.ai.kr` pointing to `<username>.github.io`. Then in GitHub repo Settings > Pages: enter custom domain `ecoinfo.ai.kr` and enable "Enforce HTTPS"
-- [ ] T020 [US3] Verify custom domain: after DNS propagation, confirm `https://ecoinfo.ai.kr` loads the portal with valid HTTPS certificate and the GitHub Pages default URL redirects to the custom domain
+- [X] T019 [US3] ⚙️ MANUAL: Configure DNS at Gabia — add CNAME record: `ecoinfo.ai.kr` pointing to `<username>.github.io`. Then in GitHub repo Settings > Pages: enter custom domain `ecoinfo.ai.kr` and enable "Enforce HTTPS"
+- [X] T020 [US3] Verify custom domain: after DNS propagation, confirm `https://ecoinfo.ai.kr` loads the portal with valid HTTPS certificate and the GitHub Pages default URL redirects to the custom domain
 
 **Checkpoint**: Custom domain operational with HTTPS. FR-006, FR-011 satisfied.
 
